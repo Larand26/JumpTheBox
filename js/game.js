@@ -7,7 +7,7 @@ ctx.scale(1, -1);
 import Player from "./Player.js";
 import { drawPlayer } from "./draw.js";
 // Teclas
-import { left, right } from "./input.js";
+import { left, right, space } from "./input.js";
 
 const player = new Player("larand");
 
