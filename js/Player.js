@@ -5,6 +5,11 @@ class Player {
     this.heght = 50;
     this.x = 50;
     this.y = 0;
+    this.velocidade = 5;
+  }
+  walk(r, l) {
+    if (r) this.x += this.velocidade;
+    if (l) this.x -= this.velocidade;
   }
 }
 export default Player;
