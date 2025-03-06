@@ -14,6 +14,9 @@ class Player {
   walk(n) {
     if (n) this.x += n * this.speed;
   }
+  run(n) {
+    n ? (this.speed = 10) : (this.speed = 5);
+  }
   fall() {
     if (this.inAir) {
       this.velocityY += this.gravity;

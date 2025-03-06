@@ -8,7 +8,7 @@ import Player from "./Player.js";
 import Box from "./Box.js";
 import { drawPlayer, drawBox } from "./draw.js";
 // Teclas
-import { left, right, space } from "./input.js";
+import { left, right, space, shift } from "./input.js";
 
 const player = new Player("larand");
 const boxes = [new Box(150, 0, 50, 50), new Box(250, 60, 50, 50)];
@@ -62,6 +62,7 @@ const gameLoop = () => {
     player.velocityY = 0;
   }
   player.jump(space);
+  player.run(shift);
   drawPlayer(ctx, player);
   drawBox(ctx, boxes);
   requestAnimationFrame(gameLoop);
