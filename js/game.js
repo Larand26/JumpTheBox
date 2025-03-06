@@ -11,7 +11,22 @@ import { drawPlayer, drawBox } from "./draw.js";
 import { left, right, space, shift } from "./input.js";
 
 const player = new Player("larand");
-const boxes = [new Box(150, 0, 50, 50), new Box(250, 60, 50, 50)];
+
+const boxes = [];
+
+const randomNumber = () => {
+  for (let i = 0; i < 15; i++) {
+    const r = Math.floor(Math.random() * 551);
+    if (!boxes.at(-1)) {
+      boxes.push(new Box(150, 0, 50, 50));
+      return;
+    }
+    const ultima = boxes.at(-1);
+    if (ultima.x - r > 350 || r - ultima < -350) {
+      boxes.push(new Box(r, i * 50, 50, 50));
+    }
+  }
+};
 export { boxes };
 const colision = () => {
   for (const box of boxes) {
@@ -89,4 +104,5 @@ const gameLoop = () => {
   requestAnimationFrame(gameLoop);
 };
 
+randomNumber();
 gameLoop();

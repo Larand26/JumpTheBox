@@ -3,8 +3,8 @@ class Player {
     this.name = name;
     this.width = 50;
     this.height = 50;
-    this.x = 150;
-    this.y = 200;
+    this.x = 0;
+    this.y = 0;
     this.speed = 5;
     this.strongJump = 10;
     this.inAir = false;
