@@ -11,60 +11,57 @@ import { drawPlayer, drawBox } from "./draw.js";
 import { left, right, space } from "./input.js";
 
 const player = new Player("larand");
-const boxes = [
-  new Box(150, 0, 50, 50),
-  new Box(200, 0, 50, 50),
-  new Box(250, 0, 50, 50),
-];
+const boxes = [new Box(150, 0, 50, 50), new Box(250, 60, 50, 50)];
 
 const colision = () => {
-  if (
-    boxes.some((box) => player.x + player.width == box.x) &&
-    right &&
-    boxes.some((box) => player.y <= box.y + box.height)
-  ) {
-    return true;
-  } else if (
-    boxes.some((box) => player.x == box.x + box.width) &&
-    left &&
-    boxes.some((box) => player.y <= box.y + box.height)
-  ) {
-    return true;
+  for (const box of boxes) {
+    if (
+      player.x + player.width == box.x &&
+      right &&
+      player.y <= box.y + box.height
+    ) {
+      return true;
+    } else if (
+      player.x == box.x + box.width &&
+      left &&
+      player.y <= box.y + box.height
+    ) {
+      return true;
+    }
   }
+
   return false;
 };
 
 const checkInAir = () => {
-  let air = true;
   if (player.y == 0) {
-    air = false;
+    return false;
   }
-  if (
-    boxes.some((box) => player.y <= box.y + box.height + 1) &&
-    boxes.some((box) => player.y - box.y + box.height > box.y + box.height + 40)
-  ) {
-    if (
-      (boxes.some((box) => player.x + player.width <= box.x + box.width) &&
-        boxes.some((box) => player.x + player.width >= box.x)) ||
-      (boxes.some((box) => player.x >= box.x) &&
-        boxes.some((box) => player.x <= box.x + box.width))
-    ) {
-      air = false;
-      player.y = boxes[0].y + boxes[0].height + 0.01;
+  for (const box of boxes) {
+    if (player.x < box.x + box.width && player.x + player.width > box.x) {
+      if (player.y <= box.y + box.height) {
+        player.y = box.y + box.height + 0.1;
+        return false;
+      }
     }
   }
-  return air;
+  return true;
 };
 
 const gameLoop = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpa o canvas antes de redesenhar
   if (right && !colision()) {
-    player.walk(right, left);
+    player.walk(1);
   } else if (left && !colision()) {
-    player.walk(right, left);
+    player.walk(-1);
   }
   player.inAir = checkInAir();
-  player.fall();
+  if (player.inAir) {
+    player.fall();
+  } else {
+    player.velocityY = 0;
+  }
+  player.jump(space);
   drawPlayer(ctx, player);
   drawBox(ctx, boxes);
   requestAnimationFrame(gameLoop);
