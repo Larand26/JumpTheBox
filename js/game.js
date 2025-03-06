@@ -55,8 +55,17 @@ const checkInAir = () => {
           return false;
         }
       }
+      if (
+        player.y + player.height >= box.y &&
+        player.y + player.height <= box.y + box.height
+      ) {
+        player.y = box.y - player.height;
+
+        return true;
+      }
     }
   }
+
   return true;
 };
 
