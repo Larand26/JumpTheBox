@@ -11,12 +11,20 @@ import { drawPlayer, drawBox } from "./draw.js";
 import { left, right, space } from "./input.js";
 
 const player = new Player("larand");
-const box1 = new Box(150, 0, 50, 50);
+const boxes = [new Box(150, 0, 50, 50)];
 
 const colision = () => {
-  if (player.x + player.width == box1.x && right) {
+  if (
+    boxes.some((box) => player.x + player.width == box.x) &&
+    right &&
+    boxes.some((box) => player.y <= box.y + box.height)
+  ) {
     return true;
-  } else if (player.x == box1.x + box1.width && left) {
+  } else if (
+    boxes.some((box) => player.x == box.x + box.width) &&
+    left &&
+    boxes.some((box) => player.y <= box.y + box.height)
+  ) {
     return true;
   }
   return false;
@@ -30,7 +38,7 @@ const gameLoop = () => {
     player.walk(right, left);
   }
   drawPlayer(ctx, player);
-  drawBox(ctx, box1);
+  drawBox(ctx, boxes);
   requestAnimationFrame(gameLoop);
 };
 
