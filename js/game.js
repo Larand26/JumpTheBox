@@ -12,19 +12,21 @@ import { left, right, space, shift } from "./input.js";
 
 const player = new Player("larand");
 const boxes = [new Box(150, 0, 50, 50), new Box(250, 60, 50, 50)];
-
+export { boxes };
 const colision = () => {
   for (const box of boxes) {
     if (
       player.x + player.width == box.x &&
       right &&
-      player.y <= box.y + box.height
+      player.y <= box.y + box.height &&
+      player.y + player.height >= box.y
     ) {
       return true;
     } else if (
       player.x == box.x + box.width &&
       left &&
-      player.y <= box.y + box.height
+      player.y <= box.y + box.height &&
+      player.y + player.height >= box.y
     ) {
       return true;
     }
@@ -47,8 +49,11 @@ const checkInAir = () => {
   for (const box of boxes) {
     if (player.x < box.x + box.width && player.x + player.width > box.x) {
       if (player.y <= box.y + box.height) {
-        player.y = box.y + box.height + 0.1;
-        return false;
+        if (player.y - box.y + box.height >= 90) {
+          player.y = box.y + box.height + 0.1;
+
+          return false;
+        }
       }
     }
   }
