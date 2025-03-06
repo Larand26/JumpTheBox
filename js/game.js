@@ -29,7 +29,14 @@ const colision = () => {
       return true;
     }
   }
-
+  if (player.x <= 0 && left) {
+    player.x = 0;
+    return true;
+  }
+  if (player.x + player.width >= canvas.width && right) {
+    player.x = canvas.width - player.width;
+    return true;
+  }
   return false;
 };
 
